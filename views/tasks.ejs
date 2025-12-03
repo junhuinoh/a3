@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+</head>
+<body>
+    <h1>Your Tasks</h1>
+    <a href="/tasks/add">Add New Task</a>
+    <br /><br />
+    <% if (tasks && tasks.length > 0 ) { %>
+        <ul>
+            <% tasks.forEach(task => { %>
+                <li>
+                    <h3><%= task.title %></h3>
+                    <p><%= task.description %></p>
+                    <p>
+                        Due:
+                        <% if (task.dueDate) { %>
+                            <%= task.dueDate.toDateString() %>
+                        <% } %>
+                    </p>
+                    <p>Status: <%= task.status %></p>
+                    <br />
+
+                    <a href="/tasks/edit/<%= task.id %>">Edit</a>
+                    <br />
+
+                    <form action="/tasks/delete/<%= task.id %>" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                    <br />
+
+                    <form action="/tasks/status/<%= task.id %>" method="POST">
+                        <% if (task.status === "completed") { %>
+                            <input type="hidden" name="status" value="pending">
+                            <button type="submit">Mark as Pending</button>
+                        <% } else { %>
+                            <input type="hidden" name="status" value="completed">
+                            <button type="submit">Mark as Completed</button>
+                        <% } %>
+                    </form>
+                    <br /><br />
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No tasks yet. Add a new one!</p>
+    <% } %>
+    <br /> <br />
+    <a href="/dashboard">Back to Dashboard</a>
+    <br />
+    <a href="/logout">Logout</a>
+</body>
+</html>
