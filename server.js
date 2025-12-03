@@ -16,7 +16,6 @@ const clientSessions = require('client-sessions');
 const bcrypt = require('bcryptjs');
 
 const app = express();
-const port = 3000;
 
 const connectMongo = require("./config/mongo");
 const User = require("./models/user");
@@ -224,4 +223,5 @@ app.post("/tasks/status/:id", ensureLogin, async (req, res) => {
   res.redirect("/tasks");
 });
 
-app.listen(port, () => console.log(`Server running on ${port}!`));
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
